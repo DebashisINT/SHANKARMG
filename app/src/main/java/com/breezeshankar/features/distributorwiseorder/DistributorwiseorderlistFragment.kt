@@ -286,10 +286,16 @@ class DistributorwiseorderlistFragment : BaseFragment(), View.OnClickListener {
                     objOrderList.shop_addr = objShopDtls.address
                     objOrderList.shop_ph = objShopDtls.ownerContactNumber
                     // 2.0 NewOrderListFragment AppV 4.0.6 Pdf module updation mantis 25595
-                    objOrderList.shopOwner_PAN = objShopDtls.shopOwner_PAN
-                    objOrderList.gstN_Number = objShopDtls.gstN_Number
+                    try {
+                        objOrderList.shopOwner_PAN = objShopDtls.shopOwner_PAN
+                        objOrderList.gstN_Number = objShopDtls.gstN_Number
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        objOrderList.shopOwner_PAN = ""
+                        objOrderList.gstN_Number = ""
+                    }
 
-                   var objProductsL = AppDatabase.getDBInstance()!!.orderProductListDao().getDataAccordingToOrderId(objOrderList.ordNo)
+                    var objProductsL = AppDatabase.getDBInstance()!!.orderProductListDao().getDataAccordingToOrderId(objOrderList.ordNo)
                    for(k in 0..objProductsL.size-1){
                        var productList = ProductList()
                        productList.item_desc=objProductsL.get(k).product_name.toString()
